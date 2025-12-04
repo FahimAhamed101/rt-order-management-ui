@@ -49,7 +49,7 @@ export default function Header({ onMenuToggle, isMenuOpen }: HeaderProps) {
   };
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: BarChart3 },
+
     { name: 'Orders', href: '/orders', icon: ShoppingCart },
     { name: 'Products', href: '/products', icon: Package },
     { name: 'Billing', href: '/billing', icon: ShoppingCart },
@@ -97,37 +97,17 @@ export default function Header({ onMenuToggle, isMenuOpen }: HeaderProps) {
             </nav>
           </div>
 
-          {/* Center section - Search */}
-          <div className="flex-1 max-w-2xl mx-4">
-            <form onSubmit={handleSearch} className="relative">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search products, orders, customers..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  Search
-                </button>
-              </div>
-            </form>
-          </div>
+      
 
-          {/* Right section - User menu and notifications */}
+   
           <div className="flex items-center space-x-4">
-            {/* Notifications */}
+      
             <button className="relative p-2 text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-full">
               <Bell size={20} />
               <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
             </button>
 
-            {/* User menu */}
+
             <div className="relative">
               <button
                 onClick={() => setShowUserMenu(!showUserMenu)}

@@ -15,6 +15,7 @@ import {
   TrendingDown
 } from 'lucide-react';
 import { useDeleteProductMutation } from '@/app/store/api/productApi';
+import { format } from 'date-fns/format';
 
 interface Product {
   id: number;

@@ -26,20 +26,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const { user } = useSelector((state: any) => state.auth);
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: Home },
+
     { name: 'Orders', href: '/orders', icon: ShoppingCart },
     { name: 'Products', href: '/products', icon: Package },
     { name: 'Billing', href: '/billing', icon: DollarSign },
-    { name: 'Customers', href: '/customers', icon: Users },
-    { name: 'Analytics', href: '/analytics', icon: TrendingUp },
-    { name: 'Reports', href: '/reports', icon: BarChart3 },
+
   ];
 
-  const secondaryNavigation = [
-    { name: 'Settings', href: '/settings', icon: Settings },
-    { name: 'Notifications', href: '/notifications', icon: Bell },
-    { name: 'Help & Support', href: '/help', icon: HelpCircle },
-  ];
+
 
   return (
     <>
@@ -94,30 +88,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               );
             })}
 
-            <p className="px-3 mt-8 text-xs font-semibold text-gray-500 uppercase tracking-wider">
-              System
-            </p>
-            {secondaryNavigation.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={onClose}
-                  className={`
-                    flex items-center px-3 py-2.5 rounded-lg transition-colors
-                    ${isActive
-                      ? 'bg-indigo-50 text-indigo-700'
-                      : 'text-gray-700 hover:bg-gray-100'
-                    }
-                  `}
-                >
-                  <Icon className={`h-5 w-5 mr-3 ${isActive ? 'text-indigo-600' : 'text-gray-400'}`} />
-                  {item.name}
-                </Link>
-              );
-            })}
+        
           </nav>
 
           {/* User profile */}
