@@ -26,15 +26,23 @@ const loginSchema = yup.object({
 
 type LoginFormData = yup.InferType<typeof loginSchema>;
 
+
+interface ApiError {
+  data?: {
+    message?: string;
+    errors?: Record<string, string[]>;
+  };
+  status?: number;
+}
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading, error }] = useLoginMutation();
-  
-  // Get auth state from Redux
+   const apiError = error as ApiError | undefined;
+
   const { isAuthenticated } = useSelector((state: any) => state.auth);
 
-  // Redirect if already authenticated
+
   useEffect(() => {
     if (isAuthenticated) {
       console.log('User is authenticated, redirecting to dashboard');
@@ -56,7 +64,7 @@ export default function LoginPage() {
       const result = await login(data).unwrap();
       console.log('Login result:', result);
       
-      // Check if login was successful (handle both token and access_token)
+   
       const token = result.access_token || result.token;
       
       if (result.success && token) {
@@ -64,7 +72,7 @@ export default function LoginPage() {
         console.log('Token:', token);
         console.log('User:', result.user);
         
-        // Double-check localStorage is set (fallback safety)
+  
         if (typeof window !== 'undefined') {
           const savedToken = localStorage.getItem('token');
           const savedUser = localStorage.getItem('user');
@@ -88,6 +96,23 @@ export default function LoginPage() {
     } catch (err) {
       console.error('Login failed:', err);
     }
+  };
+  const getErrorMessage = () => {
+    if (!apiError) return '';
+    
+    if (apiError.data?.message) {
+      return apiError.data.message;
+    }
+    
+    if (apiError.data?.errors) {
+
+      const firstErrorKey = Object.keys(apiError.data.errors)[0];
+      if (firstErrorKey) {
+        return apiError.data.errors[firstErrorKey][0];
+      }
+    }
+    
+    return 'Registration failed. Please try again.';
   };
 
   return (
@@ -172,14 +197,13 @@ export default function LoginPage() {
                   Remember me
                 </label>
               </div>
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                  <p className="text-sm">
-                    {('data' in error && error.data?.message) || 'Invalid email or password'}
-                  </p>
-                </div>
-              )}
+     {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                <p className="text-sm">
+                  {getErrorMessage()}
+                </p>
+              </div>
+            )}
 
               <button
                 type="submit"

@@ -33,6 +33,13 @@ const registerSchema = yup.object({
 });
 
 type RegisterFormData = yup.InferType<typeof registerSchema>;
+interface ApiError {
+  data?: {
+    message?: string;
+    errors?: Record<string, string[]>;
+  };
+  status?: number;
+}
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -40,7 +47,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [register, { isLoading, error }] = useRegisterMutation();
-
+  const apiError = error as ApiError | undefined;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -96,7 +103,24 @@ export default function RegisterPage() {
       console.error('Registration failed:', err);
     }
   };
-
+  // Get error message safely
+  const getErrorMessage = () => {
+    if (!apiError) return '';
+    
+    if (apiError.data?.message) {
+      return apiError.data.message;
+    }
+    
+    if (apiError.data?.errors) {
+      // Get first error message from validation errors
+      const firstErrorKey = Object.keys(apiError.data.errors)[0];
+      if (firstErrorKey) {
+        return apiError.data.errors[firstErrorKey][0];
+      }
+    }
+    
+    return 'Registration failed. Please try again.';
+  };
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-gray-50 to-blue-50">
    
@@ -252,10 +276,10 @@ export default function RegisterPage() {
             </div>
 
         
-            {error && (
+             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
                 <p className="text-sm">
-                  {('data' in error && error.data?.message) || 'Registration failed. Please try again.'}
+                  {getErrorMessage()}
                 </p>
               </div>
             )}
