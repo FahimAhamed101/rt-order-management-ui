@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCreateOrderMutation } from '@/app/store/api/orderApi';
 import { useSearchProductsForSaleQuery } from '@/app/store/api/productApi';
