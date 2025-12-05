@@ -5,7 +5,8 @@
 
 To setup env create a .env file in the root directory.create this constant variables:
 
-NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1    {heres your backend url}
+
 NEXT_PUBLIC_APP_NAME=Order Management System
 
 
